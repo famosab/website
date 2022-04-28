@@ -1,39 +1,33 @@
 name: deploy-website
 
-# Only run this when the main branch changes
 on:
   workflow_dispatch:
   push:
 
-# This job installs dependencies, build the book, and pushes it to `gh-pages`
 jobs:
-  deploy-book:
+  deploy-website:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
 
-    # Install dependencies
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
         python-version: 3.8.6
 
     - name: Install dependencies
-      run: |
-        pip install ablog
-    # Build the book
+      run: pip install ablog
+
     - name: Build the site
-      run: |
-        ablog build
+      run: ablog build
         
-    - name: Create .nojekyll
+    - name: Create .nojekyll file
       uses: 1arp/create-a-file-action@0.2
       with:
           path: '_website'
           file: '.nojekyll'
 
-    # Push the book's HTML to github-pages
-    - name: Pushes to another repository
+    - name: Push to .github.io repository
       uses: cpina/github-action-push-to-another-repository@main
       env:
         API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
