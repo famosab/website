@@ -35,3 +35,4 @@ jobs:
         destination-github-username: 'famosab'
         destination-repository-name: 'famosab.github.io'
         user-email: famke.baeuerle@gmail.com
+        target-branch: master
