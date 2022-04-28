@@ -1,0 +1,274 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Building a blog with ablog, github-pages and github-actions &#8212; Personal Blog  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="author" title="About these documents" href="../../about/" />
+    <link rel="index" title="Index" href="../../genindex/" />
+    <link rel="search" title="Search" href="../../search/" /> 
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  
+<style type="text/css">
+  ul.ablog-archive {
+    list-style: none;
+    overflow: auto;
+    margin-left: 0px;
+  }
+  ul.ablog-archive li {
+    float: left;
+    margin-right: 5px;
+    font-size: 80%;
+  }
+  ul.postlist a {
+    font-style: italic;
+  }
+  ul.postlist-style-disc {
+    list-style-type: disc;
+  }
+  ul.postlist-style-none {
+    list-style-type: none;
+  }
+  ul.postlist-style-circle {
+    list-style-type: circle;
+  }
+</style>
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+             <section id="building-a-blog-with-ablog-github-pages-and-github-actions">
+<h1>Building a blog with ablog, github-pages and github-actions<a class="headerlink" href="#building-a-blog-with-ablog-github-pages-and-github-actions" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>I had to configure an SSH key to make <code class="code bash docutils literal notranslate"><span class="pre">ablog</span> <span class="pre">deploy</span></code> work, with the setup described below this will no longer be needed.</p></li>
+<li><p>I can edit the blog and have a preview with <code class="code bash docutils literal notranslate"><span class="pre">ablog</span> <span class="pre">build</span></code> and <code class="code bash docutils literal notranslate"><span class="pre">ablog</span> <span class="pre">serve</span></code>. If i am satisfied with result, I can add, commit and push the changes.</p></li>
+<li><p>I separated the source of the website (the files written in rst) and the repository which hosts the website (html files) and connected those with a github actions script called <code class="file docutils literal notranslate"><span class="pre">deploy.yml</span></code>.</p></li>
+<li><p>I added my API-TOKEN to the secrets of the <code class="file docutils literal notranslate"><span class="pre">website</span></code> repository (the repo where I push from) as described <a class="reference external" href="https://github.com/cpina/github-action-push-to-another-repository">here</a>. This is needed for the github actions script called <code class="file docutils literal notranslate"><span class="pre">deploy.yml</span></code></p></li>
+<li><p>The <code class="file docutils literal notranslate"><span class="pre">.nojekyll</span></code> is necessary to have the blog rendered correctly.</p></li>
+</ul>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">github actions script to deploy the website automatically</span><a class="headerlink" href="#id1" title="Permalink to this code">¶</a></div>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">deploy-website</span>
+
+<span class="nt">on</span><span class="p">:</span>
+<span class="nt">workflow_dispatch</span><span class="p">:</span>
+<span class="nt">push</span><span class="p">:</span>
+
+<span class="nt">jobs</span><span class="p">:</span>
+<span class="nt">deploy-website</span><span class="p">:</span>
+   <span class="nt">runs-on</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
+   <span class="nt">steps</span><span class="p">:</span>
+   <span class="p p-Indicator">-</span> <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/checkout@v2</span>
+
+   <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Set up Python 3.8</span>
+      <span class="l l-Scalar l-Scalar-Plain">uses</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v2</span>
+      <span class="l l-Scalar l-Scalar-Plain">with</span><span class="p p-Indicator">:</span>
+      <span class="nt">python-version</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3.8.6</span>
+
+   <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Install dependencies</span>
+      <span class="l l-Scalar l-Scalar-Plain">run</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">pip install ablog</span>
+
+   <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Build the site</span>
+      <span class="l l-Scalar l-Scalar-Plain">run</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">ablog build</span>
+
+   <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Create .nojekyll file</span>
+      <span class="l l-Scalar l-Scalar-Plain">uses</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">1arp/create-a-file-action@0.2</span>
+      <span class="l l-Scalar l-Scalar-Plain">with</span><span class="p p-Indicator">:</span>
+         <span class="nt">path</span><span class="p">:</span> <span class="s">&#39;_website&#39;</span>
+         <span class="nt">file</span><span class="p">:</span> <span class="s">&#39;.nojekyll&#39;</span>
+
+   <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Push to .github.io repository</span>
+      <span class="l l-Scalar l-Scalar-Plain">uses</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">cpina/github-action-push-to-another-repository@main</span>
+      <span class="l l-Scalar l-Scalar-Plain">env</span><span class="p p-Indicator">:</span>
+      <span class="nt">API_TOKEN_GITHUB</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">${{ secrets.API_TOKEN_GITHUB }}</span>
+      <span class="nt">with</span><span class="p">:</span>
+      <span class="nt">source-directory</span><span class="p">:</span> <span class="s">&#39;_website&#39;</span>
+      <span class="nt">destination-github-username</span><span class="p">:</span> <span class="s">&#39;famosab&#39;</span>
+      <span class="nt">destination-repository-name</span><span class="p">:</span> <span class="s">&#39;famosab.github.io&#39;</span>
+      <span class="nt">user-email</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">famke.baeuerle@gmail.com</span>
+      <span class="nt">target-branch</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">master</span>
+</pre></div>
+</div>
+</div>
+</section>
+
+<div class="section">
+    
+
+<div class="section">
+  <span style="float: left">
+     Previous:
+    
+    <a href="../first_thoughts/">
+       The idea of this website
+    </a>
+    
+  </span>
+  <span>&nbsp;</span>
+  <span style="float: right">
+    
+  </span>
+</div>
+  
+</div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../">Personal Blog</a></h1>
+
+
+
+
+
+
+
+
+  
+<h2>
+   
+  28 April 2022 
+</h2>
+
+<ul>
+   
+<li id="author">
+  <span
+    >Author:</span
+  >
+   
+  <a href="../../blog/author/famke-bauerle/">Famke Bäuerle</a>  
+</li>
+    
+<li id="tags">
+  <span
+    >Tag:</span
+  >
+   
+  <a href="../../blog/tag/blog/">blog</a>  
+</li>
+ 
+</ul>
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../about/">About Me</a></li>
+</ul>
+
+
+<h3>
+  <a href="../../blog/">Recent Posts</a>
+</h3>
+<ul>
+   
+  <li>
+    <a href="../first_thoughts/"
+      >27 April - The idea of this website</a
+    >
+  </li>
+  
+</ul>
+
+<h3><a href="../../blog/tag/">Tags</a></h3>
+<style type="text/css">
+  ul.ablog-cloud {
+    list-style: none;
+    overflow: auto;
+  }
+  ul.ablog-cloud li {
+    float: left;
+    height: 20pt;
+    line-height: 18pt;
+    margin-right: 5px;
+  }
+  ul.ablog-cloud a {
+    text-decoration: none;
+    vertical-align: middle;
+  }
+  li.ablog-cloud-1 {
+    font-size: 80%;
+  }
+  li.ablog-cloud-2 {
+    font-size: 95%;
+  }
+  li.ablog-cloud-3 {
+    font-size: 110%;
+  }
+  li.ablog-cloud-4 {
+    font-size: 125%;
+  }
+  li.ablog-cloud-5 {
+    font-size: 140%;
+  }
+</style>
+<ul class="ablog-cloud">
+   
+  <li class="ablog-cloud ablog-cloud-3">
+    <a href="../../blog/tag/blog/">blog</a>
+  </li>
+   
+</ul>
+
+<h3>
+  <a href="../../blog/archive/">Archives</a>
+</h3>
+<ul>
+   
+  <li>
+    <a href="../../blog/2022/">2022 (2)</a>
+  </li>
+   
+</ul>
+
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search/" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Famke.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../../_sources/posts/build_blog.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
