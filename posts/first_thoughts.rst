@@ -18,3 +18,4 @@ However all of these websites are up and running with designs that I quite like.
 Some Takeaways:
 + I had to configure an SSH key to make ``ablog deploy`` work
 + I have now a source repo called website and the gh-pages repo separated
++ I did not read the github actions documentation so everything failed. I now added my API-TOKEN to the secrets of the website repository (the repo where I push from)
