@@ -12,6 +12,8 @@ import os
 import sys
 import ablog
 import alabaster
+#import sphinx_bootstrap_theme
+
 
 # -- General ABlog Options ----------------------------------------------------
 
@@ -107,7 +109,7 @@ html_sidebars = {
             'recentposts.html', 'tagcloud.html',
             'categories.html',  'archives.html',
             'searchbox.html',
-            ],
+           ],
     }
 
 # -- Blog Feed Options --------------------------------------------------------
@@ -269,17 +271,21 @@ todo_include_todos = "False"
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'alabaster'
+html_theme = "alabaster" #'bootstrap' html_theme = 
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
 html_theme_options = {
     'github_button': False,
+    #'navbar_title': "F14",
+    #'navbar_class': "navbar navbar-inverse",
+    #'bootswatch_theme': "flatly",
+    #'navbar_pagenav': False,
 }
 
 # Add any paths that contain custom themes here, relative to this directory.
-html_theme_path = [alabaster.get_path()]
+html_theme_path = [alabaster.get_path()] #sphinx_bootstrap_theme.get_html_theme_path() 
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".

@@ -16,7 +16,7 @@ jobs:
         python-version: 3.8.6
 
     - name: Install dependencies
-      run: pip install ablog
+      run: pip install ablog insegel
 
     - name: Build the site
       run: ablog build

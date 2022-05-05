@@ -2,7 +2,6 @@
 .. Personal Blog index file, created by `ablog start` on Thu Apr 28 12:02:32 2022.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
-
 Welcome to Famke's Blog!
 =========================================
 
@@ -13,6 +12,8 @@ Here is a list of most recent posts:
 
 .. postlist:: 5
    :excerpts:
+
+
 
 
 .. `toctree` directive, below, contains list of non-post `.rst` files.
