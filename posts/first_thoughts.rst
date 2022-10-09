@@ -8,7 +8,7 @@
 The idea of this website
 ========================
 
-This blog will serve as a personal archive where I can (publicly) not stuff that I want to remember or that I might find helpful another day. I must admit that this was heavily inspired by `Sam Nicholls Blog <https://samnicholls.net/>`_. 
+This blog will serve as a personal archive where I can (publicly) note stuff that I want to remember or that I might find helpful another day. I must admit that this was heavily inspired by `Sam Nicholls Blog <https://samnicholls.net/>`_. 
 
 This post today will teach me how to setup a blog from scratch. This might prove useful for converting some (or all) of the plain html websites that I am currently responsible for:
 
