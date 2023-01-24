@@ -32,7 +32,7 @@ If you end up with a table that has two three columns from which you want one as
 
 Graphical representation of what this does:
 
-.. list-table:: Title
+.. flat-table:: Title
    :header-rows: 1
 
    * -
@@ -64,7 +64,7 @@ Graphical representation of what this does:
      - color
      - pink
 
-.. list-table:: Title
+.. flat-table:: Title
    :header-rows: 1
    * -
      - taste
