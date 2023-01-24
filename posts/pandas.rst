@@ -33,8 +33,36 @@ If you end up with a table that has two three columns from which you want one as
 Graphical representation of what this does:
 
 .. list-table:: Title
-   :widths: 25 25 25 50
+   :widths: 25 25 25 25
    :header-rows: 1
+   * -
+     - food
+     - property
+     - numerical value
+   * - 0
+    - pear 
+     - taste
+     - 57
+    * - 1
+    - tomato
+     - taste
+     - 60
+    * - 2
+     - peach
+     - taste
+     - 55
+    * - 3
+     - pear 
+     - color
+     - green
+    * - 4
+    - tomato
+     - color
+     - red
+    * - 5
+     - peach
+     - color
+     - pink
 +--------+-----------+----------------------+---------------------+
 |   | model | medium    | numerical value  |                     |
 +========+===========+======================+=====================+
