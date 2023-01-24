@@ -32,6 +32,9 @@ If you end up with a table that has two three columns from which you want one as
 
 Graphical representation of what this does:
 
+.. list-table:: Title
+   :widths: 25 25 25 50
+   :header-rows: 1
 +--------+-----------+----------------------+---------------------+
 |   | model | medium    | numerical value  |                     |
 +========+===========+======================+=====================+
@@ -62,6 +65,9 @@ Graphical representation of what this does:
 | 24     | apple  | cooking time               | 46.83827301353397   |
 +--------+-----------+----------------------+---------------------+
 
+.. list-table:: Title
+   :widths: 25 25 25 25 25
+   :header-rows: 1
 +-----------+--------------------+---------------------+--------------------+---------------------+
 |           | cooking time       | taste               | color              | shape                | 
 +===========+====================+=====================+====================+=====================+
