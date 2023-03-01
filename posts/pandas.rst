@@ -22,13 +22,20 @@ If you end up with a table that has two three columns from which you want one as
 * if you want you can remove column and index names and keep only level 1 of the Multi-Index to obtain a cleaner table
 
 .. code-block:: python
-   :caption: pandas
+   :caption: pandas transformation
 
     df.set_index(['colum1','colum2']).sort_index().T.stack()
     df.columns.name = None
     df.index.names = (None, None)
     df.index.name = None
     df.index = df.index.get_level_values(1)
+
+Note: If you have a table where you want to transform multiple columns into row entries, take the column headers of the other columns (the ones that you want to keep as columns) and use those to stack the DataFrame into its new format.
+
+.. code-block:: python
+   :caption: with multiple rows, where group1 and group2 are two columns of six
+
+    pd.DataFrame(df.set_index(['group1', 'group2']).stack()).reset_index()
 
 Graphical representation of what this does:
 
